@@ -5,16 +5,16 @@ import random
 
 # Create full name list
 def identity_name(database_folder, error_list):
-    name_list = []
+    name_list = set()
     # Use os.walk to extract necessary info
     for root, dirs, files in os.walk(database_folder):
     # Root will be the whole path, Files will be the file name with extension
         for file in files:
             if file.endswith(".jpg"):
-                name = root.split('/')[1] # This will be the person's name
+                name = root.split('/')[8] # This will be the person's name
                 if name not in error_list: # Error_list from data cleaning
-                    name_list.append(name)
-    return list(set(name_list))
+                    name_list.add(name)
+    return list(name_list)
 
 # A .csv file was provided named “YTFErrors.csv”, the file listed 55 names with at least one folder(video) which does not belong to that name.
 # We start with creating a list of these names.
@@ -39,12 +39,12 @@ def data_clean(error_csv):
 # Create train and test folder path
 def train_test_split(name_list):
     # List first folders of each person as the training data
-    temp_list = list(set(name_list))
+    temp_list = list(name_list)
     train_set = set()
-    for root, dirs, files in os.walk("frame_images_DB"):
+    for root, dirs, files in os.walk("/Users/yaoyucui/Works/Smith/Deep Learning/Youtube Dataset/frame_images_DB"):
         for file in files:
             if file.endswith(".jpg"):
-                name = root.split('/')[1]            
+                name = root.split('/')[8]            
                 if name in temp_list:
                     train_set.add(root)
                     temp_list.remove(name)
@@ -52,10 +52,10 @@ def train_test_split(name_list):
     # list second folders of applicable person as the testing data
     temp_list = list(set(name_list))
     test_set = set()
-    for root, dirs, files in os.walk("frame_images_DB"):
+    for root, dirs, files in os.walk("/Users/yaoyucui/Works/Smith/Deep Learning/Youtube Dataset/frame_images_DB"):
         for file in files:
             if file.endswith(".jpg"):
-                name = root.split('/')[1]            
+                name = root.split('/')[8]            
                 if (name in temp_list) & (root not in train_set):
                     test_set.add(root)
                     temp_list.remove(name)
