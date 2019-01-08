@@ -1,3 +1,4 @@
+# pylint: disable=no-member
 import cv2
 from Data_Prep import data_clean,identity_name,name_to_address
 
@@ -9,7 +10,7 @@ def run_cascade(face_cascade,addrs):
 
     for file in addrs:
         image = cv2.imread(file)
-        image = cv2.resize(image,(120,120))
+        image = cv2.resize(image,(300,300))
         gray=cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         
         # Set the default scaleFactor to be 1.1, minNeighbors to be 5
@@ -62,9 +63,7 @@ print("Har_alt_tree Suceed identify:", har_alt_tree)
 # Har_alt_tree identified 31749 faces
 
 # Winner Cascade is Har_alt, with 365872 faces (62.2%)
-# 
 
-# Save result to disk:
 face_nums = (har_default,har_alt,har_alt_tree)
 address_lists = (addrs_default,addrs_alt,addrs_alt_tree)
 # Find the best cascade and its corresponding address
