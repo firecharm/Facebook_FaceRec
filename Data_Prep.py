@@ -36,43 +36,78 @@ def data_clean(error_csv):
 
     return error_list_temp
 
-# Create train and test folder path
-def train_test_split(name_list):
-    # List first folders of each person as the training data
-    temp_list = list(name_list)
-    train_set = set()
-    for root, dirs, files in os.walk("/Users/yaoyucui/Works/Smith/Deep Learning/Youtube Dataset/frame_images_DB"):
+def name_to_address(database_folder,name_list):
+    temp_list = list(set(name_list))
+    folders = set()
+    for root, dirs, files in os.walk(database_folder):
         for file in files:
             if file.endswith(".jpg"):
                 name = root.split('/')[8]            
                 if name in temp_list:
-                    train_set.add(root)
-                    temp_list.remove(name)
+                    folders.add(root)
+    addrs = []
+    for path in folders:
+        for i in os.listdir(path):
+            addrs.append(path+'/'+i)
+    return (addrs)
+
+# Create train and test folder path
+def train_test_split(addrs_list):
+    # Train
+    temp_name_set = set()
+    train_folder_dict = {}
+    train_addrs = []
+    for i in addrs_list:
+        name = i.split("/")[-3]
+        folder = i.split("/")[-3]+ "/"+ i.split("/")[-2]
+        
+        if name in temp_name_set:
+            pass
+        else:
+            temp_name_set.add(name)
+            train_folder_dict[folder] = 0
+
+        if folder in train_folder_dict.keys():
+            train_folder_dict[folder] += 1 # keep record of number of frames
+            train_addrs.append(i)
+
+    # Drop the person if number of frames is less than 30
+    unwant_name = [] # Create list of unwanted
+    for key, value in train_folder_dict.items():
+        if value <30:
+            unwant_name.append(key.split("/")[0])
+    # If address folder not in unwant, then keep the address
+    train_addrs_update = []
+    for i in train_addrs:
+        name = i.split("/")[-3]
+        folder = i.split("/")[-3]+ "/"+ i.split("/")[-2]
+        if name not in unwant_name:
+            train_addrs_update.append(i)
     
-    # list second folders of applicable person as the testing data
-    temp_list = list(set(name_list))
-    test_set = set()
-    for root, dirs, files in os.walk("/Users/yaoyucui/Works/Smith/Deep Learning/Youtube Dataset/frame_images_DB"):
-        for file in files:
-            if file.endswith(".jpg"):
-                name = root.split('/')[8]            
-                if (name in temp_list) & (root not in train_set):
-                    test_set.add(root)
-                    temp_list.remove(name)
+    # Test
+    test_addrs = []
+    for i in addrs_list:
+        name = i.split("/")[-3]
+        folder = i.split("/")[-3]+ "/"+ i.split("/")[-2]
+        # Constraint: 1. name not in unwant_name 2. folder not in train_folder
+        if (name not in unwant_name) & (folder not in train_folder_dict.keys()) & (i not in train_addrs_update):
+            test_addrs.append(i)
 
-    return (train_set,test_set)
+    return (train_addrs_update,test_addrs)
     
-#  randomly select frames
-def shrinkage(folder_path,num_frames):
-    # For Train_set Randomly select frames, 48 per person
-    # For Test_set Randomly select frames, 10 per person
-    data_addrs = []
-    for path in folder_path:
-        file = random.sample(os.listdir(path),num_frames)
+#  Shrink data to desired num of frames
+def shrinkage(data_addrs,num_frames):
+    folder_dict = {}
+    addrs_list = []
+    for i in data_addrs:
+        folder = folder = i.split("/")[-3]+ "/"+ i.split("/")[-2]
+        # Set initial number to be 0
+        if folder not in folder_dict.keys():
+            folder_dict[folder] = 0
+        # Updating the num of frames till meet desired
+        if folder_dict[folder] < num_frames:
+            addrs_list.append(i)
+            folder_dict[folder] += 1
 
-        for i in file:
-            # This address will be the full address
-            data_addrs.append(path+'/'+i)
-
-    return data_addrs
+    return(addrs_list)
     
