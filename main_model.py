@@ -11,7 +11,7 @@ if __name__ == "__main__":
     # Read data from hdf5 file
     # Data from independent .py file:
     # main_data_store.py
-    hdf5_path = '/Users/yaoyucui/Works/Smith/Deep Learning/Youtube Dataset/dataset.hdf5'
+    hdf5_path = 'dataset.hdf5'
     hdf5_file = h5py.File(hdf5_path, "r")
 
     # Convert labels to One-Hot-Encoding

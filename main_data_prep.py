@@ -6,7 +6,7 @@ if __name__ == "__main__":
     # Cascade selection done in an independent .py file:
     # Face_Crop_Cascade_Selection
     # recogizeable frames stored in txt file: Suceed_identify.txt
-    f = open('/Users/yaoyucui/Works/Smith/Deep Learning/Youtube Dataset/Suceed_identify.txt', 'r')
+    f = open('Suceed_identify.txt', 'r')
     file_addrs = f.read().splitlines()
     f.close()
     # 358219 cleaned address, 1084 person
@@ -19,10 +19,10 @@ if __name__ == "__main__":
     print(len(test_addrs))
 
     # Save the cleaned result to disk
-    with open('/Users/yaoyucui/Works/Smith/Deep Learning/Youtube Dataset/Train_addrs.txt', 'w') as f:
+    with open('Train_addrs.txt', 'w') as f:
         for item in train_addrs:
             f.write("%s\n" % item)
     
-    with open('/Users/yaoyucui/Works/Smith/Deep Learning/Youtube Dataset/Test_addrs.txt', 'w') as f:
+    with open('Test_addrs.txt', 'w') as f:
         for item in test_addrs:
             f.write("%s\n" % item)

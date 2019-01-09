@@ -7,7 +7,7 @@ import cv2
 # Need to create hdf5 placeholder for image (X) as numpy array, and its label (y)
 # To initialize the placeholder, the shape of image is needed, this can be extracted from data_addrs
 def Initialize_hdf5(train_addrs,test_addrs,shape0,shape1):
-    hdf5_path = '/Users/yaoyucui/Works/Smith/Deep Learning/Youtube Dataset/dataset.hdf5'
+    hdf5_path = 'dataset.hdf5'
 
     # Initialize images (X)
     hdf5_file = h5py.File(hdf5_path, mode='w')
@@ -30,7 +30,7 @@ def Initialize_hdf5(train_addrs,test_addrs,shape0,shape1):
     hdf5_file["test_labels"][...] = test_labels
 
     # Fill in images with Face Crop
-    cascadePath = "/Users/yaoyucui/Works/Smith/Deep Learning/Youtube Dataset/cascade/haarcascade_frontalface_alt.xml"
+    cascadePath = "cascade/haarcascade_frontalface_alt.xml"
     face_cascade = cv2.CascadeClassifier(cascadePath)  
 
     for i in range(len(train_addrs)):
@@ -78,12 +78,12 @@ if __name__ == "__main__":
     # Run independent .py file:
     # main_data_prep.py
     # files stored in txt file: Train_addrs.txt, Test_addrs.txt
-    f = open('/Users/yaoyucui/Works/Smith/Deep Learning/Youtube Dataset/Train_addrs.txt', 'r')
+    f = open('Train_addrs.txt', 'r')
     train_addrs = f.read().splitlines()
     f.close()
     # 28380 frames, 946 person, 30 per person
 
-    f = open('/Users/yaoyucui/Works/Smith/Deep Learning/Youtube Dataset/Test_addrs.txt', 'r')
+    f = open('Test_addrs.txt', 'r')
     test_addrs = f.read().splitlines()
     f.close()
     # 8726 frames, 946 person, max 10 frames per person
