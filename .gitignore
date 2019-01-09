@@ -1,0 +1,12 @@
+.DS_Store
+.Rhistory
+.ipynb_checkpoints/
+arules.nb.html
+#*.html
+kiva*.docx
+kiva*.pdf
+.Rproj.user
+*.html
+*_cache
+*_files
+*.zip
