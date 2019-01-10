@@ -21,38 +21,43 @@ if __name__ == "__main__":
     encoded_test = encoder.transform(hdf5_file["test_labels"])
 
     # convert integers to dummy variables (i.e. one hot encoded)
-    dummy_train = utils.to_categorical(encoded_train)
+    dummy_train = utils.to_categorical(encoded_train)[:,1:]
+    # dummy_train = utils.to_categorical(encoded_train)
     dummy_test = utils.to_categorical(encoded_test)
 
     # Build NN Structure
-    batch_size = 1280
+    batch_size = 64
     num_classes = dummy_train.shape[1]
-    epochs = 3
+    epochs = 20
     input_shape = (120,120, 3)
 
     model = Sequential()
     model.add(Conv2D(32, kernel_size=(3, 3),
                     activation ='relu',
-                    input_shape =input_shape))
-    model.add(Conv2D(64, (3, 3), activation='relu'))
+                    input_shape =input_shape,
+                    padding='same',
+                    dilation_rate=2))
+    model.add(MaxPooling2D(pool_size=(2, 2)))
+    model.add(Conv2D(64, (3, 3), activation='relu', padding='same'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
     model.add(Dropout(0.25))
     model.add(Flatten())
     model.add(Dense(128, activation='relu'))
     model.add(Dropout(0.5))
     model.add(Dense(num_classes, activation='softmax'))
-
     model.compile(loss='categorical_crossentropy',
                 optimizer=optimizers.Adadelta(),
                 metrics=['accuracy'])
-
+    
     history = model.fit(hdf5_file["train_img"], dummy_train,
-                     batch_size = batch_size,
-                     epochs = epochs,
-                     verbose = 2,
-                     shuffle = 'batch'
-                     )
+                        validation_data=(hdf5_file["test_img"],dummy_test),
+                        batch_size = batch_size,
+                        epochs = epochs,
+                        verbose = 2,
+                        shuffle = 'batch'
+                        )
 
 
-    print(history)
+
+
    
