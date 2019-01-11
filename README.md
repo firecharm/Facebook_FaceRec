@@ -4,7 +4,7 @@ Data from http://www.cs.tau.ac.il/~wolf/ytfaces/index.html#overview
 
 ## Getting Started
 
-###Preliminary model code & procedure:
+### Preliminary model code & procedure:
 1. Run Face_Crop_Cascade_Selection.py to:
     1. Pick best face cascade
     2. Store recognizable frame address in disk (Suceed_identify.txt)
@@ -19,7 +19,7 @@ Data from http://www.cs.tau.ac.il/~wolf/ytfaces/index.html#overview
 5. Run Hyper-tune.py to perform hyper-parameter tuning
 	
 
-###Model Rework & Procedure:
+### Model Rework & Procedure:
 1. Run main_data_store_modi.py:
     1. Read from Suceed_identify.txt for all candidate frames
     2. Run shrinkage to reduce size
@@ -27,6 +27,6 @@ Data from http://www.cs.tau.ac.il/~wolf/ytfaces/index.html#overview
 2. Run main_model_modi.py (minor changes from previous)
 3. Run Hyper-tune_modi.py (minor changes from previous)
 
-###Supporting file:
+### Supporting file:
 	Data_Prep.py 
 
