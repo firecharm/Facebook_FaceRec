@@ -28,10 +28,10 @@ if __name__ == "__main__":
     # convert integers to dummy variables (i.e. one hot encoded)
     dummy_train = utils.to_categorical(encoded_train)[:,1:]
     dummy_test = utils.to_categorical(encoded_test)[:,1:]
-
-
         
     # Build NN Structure
+
+    # Sets of hyper-parameters
     batch_sizes = [8,16,64]
     filters = [32,16,8]
 
@@ -39,6 +39,7 @@ if __name__ == "__main__":
     epochs = 40
     input_shape = (120,120, 3)
 
+    # Store the result
     results = []
 
     for batch_size,filter in zip(batch_sizes,filters):

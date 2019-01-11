@@ -21,11 +21,10 @@ if __name__ == "__main__":
     encoded_test = encoder.transform(hdf5_file["test_labels"])
 
     # convert integers to dummy variables (i.e. one hot encoded)
-    dummy_train = utils.to_categorical(encoded_train)[:,1:]
-    # dummy_train = utils.to_categorical(encoded_train)
-    dummy_test = utils.to_categorical(encoded_test)
+    dummy_train = utils.to_categorical(encoded_train)[:,1:] # [:,1:] to resolve shape issue
+    dummy_test = utils.to_categorical(encoded_test) 
 
-    # Build NN Structure
+    # Build a Baseline NN Structure
     batch_size = 64
     num_classes = dummy_train.shape[1]
     epochs = 20

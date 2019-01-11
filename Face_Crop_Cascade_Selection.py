@@ -2,15 +2,17 @@
 import cv2
 from Data_Prep import data_clean,identity_name,name_to_address
 
-# We will flag a suceed face crop only if 1. found eye in the face 2. only one face exist
+# We will flag a suceed face crop only if:
+# 1. found eye in the face 2. only one face exist
 def run_cascade(face_cascade,addrs):
     face_num=0 # num of suceed face detection
-    Suceed_addrs = [] # 
+    Suceed_addrs = [] 
     eye_cascade = cv2.CascadeClassifier('cascade/haarcascade_eye.xml')
 
     for file in addrs:
         image = cv2.imread(file)
         image = cv2.resize(image,(300,300))
+        # Face cascade takes gray scaled image only
         gray=cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
         
         # Set the default scaleFactor to be 1.1, minNeighbors to be 5
@@ -31,9 +33,7 @@ def run_cascade(face_cascade,addrs):
         if ((len(face) == 1)) & (eye_num > 0):
             face_num += 1 
             Suceed_addrs.append(file)
-
-    
-
+            
     return (face_num,Suceed_addrs)
 
 if __name__ == "__main__":

@@ -36,6 +36,7 @@ def data_clean(error_csv):
 
     return error_list_temp
 
+# Get address off database, ref name
 def name_to_address(database_folder,name_list):
     temp_list = list(set(name_list))
     folders = set()
@@ -51,9 +52,10 @@ def name_to_address(database_folder,name_list):
             addrs.append(path+'/'+i)
     return (addrs)
 
-# Create train and test folder path
+
 def train_test_split(addrs_list):
     # Train
+    
     temp_name_set = set()
     train_folder_dict = {}
     train_addrs = []

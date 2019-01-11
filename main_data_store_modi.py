@@ -14,19 +14,14 @@ def Initialize_hdf5(data_addrs,shape0,shape1):
     hdf5_file = h5py.File(hdf5_path, mode='w')
 
     data_shape = (len(data_addrs), shape0,shape1, 3)
-    
-
     hdf5_file.create_dataset("img", data_shape, np.int8)
     
-
     # Initialize label(y)
     dt = h5py.special_dtype(vlen=str) 
     hdf5_file.create_dataset("labels", (len(data_addrs),), dt)
     
-    
     # Fill in labels
     labels = [i.split('/')[-3] for i in data_addrs]
-    
     hdf5_file["labels"][...] = labels
     
 
