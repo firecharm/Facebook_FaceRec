@@ -70,7 +70,7 @@ if __name__ == "__main__":
     # Find the best cascade and its corresponding address
     result = address_lists[face_nums.index(max(face_nums))]
 
-    # For persons with less than 30 frames, drop them from the list:
+    # For persons with less than 50 frames, drop them from the list:
     test_name_list = []
     for i in result:
         test_name_list.append(i.split("/")[-3])
