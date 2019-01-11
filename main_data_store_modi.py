@@ -2,6 +2,7 @@
 import numpy as np
 import h5py
 import cv2
+from Data_Prep import shrinkage
 
 # Initialize hdf5 placeholder
 # Need to create hdf5 placeholder for image (X) as numpy array, and its label (y)
@@ -61,8 +62,10 @@ if __name__ == "__main__":
     # files stored in txt file: Suceed_identify.txt
     f = open('Suceed_identify.txt', 'r')
     data_addrs = f.read().splitlines()
+    data_addrs = shrinkage(data_addrs,50)
     f.close()
     # 358219 cleaned address, 1084 person
+    # After shrinkage, 95,442 left
 
     # Initialize HDF5 database
     # Set 120 x 120 frame size for face input
